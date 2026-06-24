@@ -1,0 +1,58 @@
+.vjs-tree-brackets {
+  @apply cursor-pointer hover:text-blue-500;
+}
+
+.vjs-tree-node {
+  @apply relative flex px-2 transition-colors hover:bg-sky-100 dark:hover:bg-slate-700;
+}
+
+.vjs-tree-node .vjs-indent {
+  @apply relative flex;
+}
+
+.vjs-tree-node .vjs-indent-unit.has-line {
+  @apply border-l border-dashed border-gray-300;
+}
+
+.vjs-node-index {
+  @apply absolute right-full mr-1 select-none;
+}
+
+.vjs-colon {
+  @apply whitespace-pre;
+}
+
+.vjs-comment {
+  @apply text-slate-400;
+}
+
+.vjs-key {
+  @apply whitespace-nowrap;
+}
+
+.vjs-value {
+  @apply break-normal wrap-anywhere;
+}
+
+.vjs-tree-node.dynamic-height .vjs-value {
+  @apply whitespace-pre-wrap;
+}
+
+.vjs-value-null,
+.vjs-value-undefined {
+  @apply text-fuchsia-500;
+}
+
+.vjs-value-boolean,
+.vjs-value-number,
+.vjs-value-bigint {
+  @apply text-sky-500;
+}
+
+.vjs-value-string {
+  @apply text-green-500;
+}
+
+.vjs-tree {
+  @apply text-left font-mono text-sm;
+}

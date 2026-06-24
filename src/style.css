@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+
+@import './vue-json-pretty.css';
+
+html {
+  @apply h-full scrollbar-thin;
+}
+
+body {
+  color: var(--tg-theme-text-color, theme('colors.black'));
+  background-color: var(--tg-theme-secondary-bg-color, theme('colors.gray.100'));
+}
+
+body:where(.dark, .dark *) {
+  color: var(--tg-theme-text-color, theme('colors.white'));
+  background-color: var(--tg-theme-secondary-bg-color, theme('colors.gray.800'));
+}
+
+body section {
+  background-color: var(--tg-theme-bg-color, theme('colors.white'));
+}
+
+body:where(.dark, .dark *) section {
+  background-color: var(--tg-theme-bg-color, theme('colors.gray.900'));
+}
