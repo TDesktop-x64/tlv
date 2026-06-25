@@ -16,14 +16,11 @@ const TYPES_TO_ADD = [
   'messageService',
   'messageEmpty',
 ]
-const regex = /_layer(\d+)$/
 const schemaPath = path.resolve('generator/schemas')
 const tlPath = path.resolve('src/tl')
 await fs.mkdir(tlPath, { recursive: true })
 
-const apiSchema = await fs
-  .readFile(path.join(schemaPath, 'api.tl'), 'utf8')
-  .then(parseTlToEntries)
+const apiSchema = await fs.readFile(path.join(schemaPath, 'api.tl'), 'utf8').then(parseTlToEntries)
 
 const schema = await parseFullTlSchema(apiSchema)
 
@@ -71,18 +68,6 @@ for (const type of typesToAdd) {
   const entry = schema.classes[type]
   entries.push(entry)
 }
-
-const compatSchema = await fs
-  .readFile(path.join(schemaPath, 'compat.tl'), 'utf8')
-  .then(parseTlToEntries)
-compatSchema.forEach((e) => {
-  if (regex.test(e.name)) {
-    const newName = e.name.replace(regex, '')
-    console.log(`Renamed ${e.name} → ${newName}`)
-    e.name = newName
-  }
-})
-entries.push(...compatSchema)
 
 console.log(`Parsed ${entries.length} entries in total`)
 let readerCode = generateReaderCodeForTlEntries(entries, {
