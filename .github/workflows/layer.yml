@@ -1,0 +1,74 @@
+name: Update Telegram API Layer
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-api-tl:
+    runs-on: ubuntu-slim
+    outputs:
+      changed: ${{ steps.layer.outputs.changed }}
+      sha: ${{ steps.push.outputs.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch latest 64Gram api.tl
+        run: |
+          curl -fsSL \
+            https://raw.githubusercontent.com/TDesktop-x64/tdesktop/refs/heads/dev/Telegram/SourceFiles/mtproto/scheme/api.tl \
+            -o /tmp/api.tl
+
+      - name: Compare file
+        id: layer
+        run: |
+          get_layer() {
+            grep -v '^[[:space:]]*$' "$1" | tail -n1 | sed -n 's#// LAYER \([0-9]\+\).*#\1#p'
+          }
+
+          REMOTE_LAYER=$(get_layer /tmp/api.tl)
+
+          echo "remote=$REMOTE_LAYER" >> "$GITHUB_OUTPUT"
+
+          if cmp -s /tmp/api.tl generator/schemas/api.tl; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update schema
+        if: steps.layer.outputs.changed == 'true'
+        run: |
+          cp /tmp/api.tl generator/schemas/api.tl
+
+      - name: Commit changes
+        id: push
+        if: steps.layer.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add generator/schemas/api.tl
+          git commit -m "update to layer ${{ steps.layer.outputs.remote }}"
+          git push
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  pages:
+    needs: update-api-tl
+    if: needs.update-api-tl.outputs.changed == 'true'
+    uses: ./.github/workflows/pages.yml
+    with:
+      sha: ${{ needs.update-api-tl.outputs.sha }}
+    secrets: inherit
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

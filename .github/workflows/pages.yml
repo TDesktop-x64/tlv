@@ -5,6 +5,11 @@ on:
     branches: ["main"]
 
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      sha:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -21,6 +26,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sha }}
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
