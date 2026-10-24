@@ -13,43 +13,48 @@
     "prebuild": "node generator/generator.mjs",
     "prebuild:td": "node generator/generator.mjs",
     "predev": "npm run prebuild",
-    "postinstall": "patch-package",
     "lint": "run-s lint:*",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@fuman/utils": "^0.0.21",
+    "@fuman/utils": "^0.0.23",
     "@heroicons/vue": "^2.2.0",
-    "@mtcute/tl-runtime": "^0.32.0",
-    "@vueuse/core": "^14.4.0",
+    "@mtcute/tl-runtime": "^0.32.6",
+    "@vueuse/core": "^15.0.0",
     "v-wave": "^3.1.1",
-    "vue": "^3.5.42",
+    "vue": "^3.5.44",
     "vue-json-pretty": "^2.6.0"
   },
   "devDependencies": {
-    "@mtcute/tl-utils": "^0.32.0",
+    "@mtcute/tl-utils": "^0.32.6",
     "@tailwindcss/vite": "^4.3.3",
     "@tsconfig/node24": "^24.0.5",
-    "@types/node": "^26.4.0",
-    "@vitejs/plugin-vue": "^6.0.8",
+    "@types/node": "^26.6.5",
+    "@vitejs/plugin-vue": "^6.0.10",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.9.0",
     "@vue/tsconfig": "^0.9.1",
-    "eslint": "^10.9.1",
-    "eslint-plugin-oxlint": "^1.80.0",
-    "eslint-plugin-vue": "^10.10.0",
-    "npm-run-all2": "^9.0.3",
-    "oxlint": "^1.80.0",
-    "patch-package": "^8.0.1",
-    "prettier": "^3.9.6",
+    "eslint": "^10.13.0",
+    "eslint-plugin-oxlint": "^1.89.0",
+    "eslint-plugin-vue": "^10.11.1",
+    "npm-run-all2": "^9.0.4",
+    "oxlint": "^1.89.0",
+    "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.3.3",
-    "typescript": "^6.0.3",
-    "vite": "^8.2.2",
+    "typescript": "npm:typescript-native-bridge@^6.0.3-bridge.19.tsgo.7.0.2",
+    "vite": "^8.3.5",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-vue-devtools": "^8.2.1",
-    "vue-tsc": "^3.3.11"
-  }
+    "vue-tsc": "^3.3.13"
+  },
+  "overrides": {
+    "typescript": "$typescript"
+  },
+  "patchedDependencies": {
+    "@mtcute/tl-runtime@0.32.6": "patches/@mtcute/tl-runtime@0.32.6.patch"
+  },
+  "packageManager": "npm@12.2.1+sha512.6ca0a6151553fc107e60f1186d9c10d57508dcde6de31292a54d4cc4e8e8ef3de25b3281274657442d7115d10df930bb3794ddcb0681cdfd9d317189abf7b63d"
 }

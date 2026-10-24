@@ -1,14 +1,14 @@
-diff --git a/node_modules/@mtcute/tl-runtime/reader.js b/node_modules/@mtcute/tl-runtime/reader.js
-index 6a83d0b..7b578e6 100644
---- a/node_modules/@mtcute/tl-runtime/reader.js
-+++ b/node_modules/@mtcute/tl-runtime/reader.js
-@@ -1,5 +1,4 @@
+--- a/reader.js	
++++ b/reader.js	
+@@ -1,6 +1,5 @@
  import { utf8 } from "@fuman/utils";
 -import Long from "long";
  const TWO_PWR_32_DBL = (1 << 16) * (1 << 16);
  class TlUnknownObjectError extends Error {
    constructor(objectId) {
-@@ -70,10 +69,12 @@ class TlBinaryReader {
+     super(`Unknown object id: 0x${objectId.toString(16)}`);
+@@ -69,12 +68,14 @@
+     this.pos += 8;
      return res;
    }
    long(unsigned = false) {
@@ -24,3 +24,4 @@ index 6a83d0b..7b578e6 100644
    }
    float() {
      const res = this.dataView.getFloat32(this.pos, true);
+     this.pos += 4;
